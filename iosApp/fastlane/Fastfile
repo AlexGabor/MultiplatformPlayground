@@ -1,0 +1,27 @@
+default_platform(:ios)
+
+platform :ios do
+  scheme = "iosApp"
+  desc "Run tests"
+    lane :tests do
+      run_tests(
+          workspace: "iosApp.xcworkspace",
+          devices: ["iPhone 11"],
+          derived_data_path: "../build"
+      )
+  end
+  desc "Build"
+  lane :build do |options|
+    xcodebuild(
+          workspace: "#{scheme}.xcworkspace",
+          scheme: scheme,
+          build: true,
+          build_settings: {
+            "CODE_SIGN_IDENTITY" => "",
+            "CODE_SIGNING_REQUIRED" => "NO",
+            "CODE_SIGN_ENTITLEMENTS" => "",
+            "CODE_SIGNING_ALLOWED" => "NO"
+          }
+        )
+  end
+end
